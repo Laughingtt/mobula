@@ -17,6 +17,7 @@ venv
 
 # logs
 **/logs/*
+**/data/*
 
 # editable install
 PKG-INFO
