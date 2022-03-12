@@ -48,7 +48,7 @@ class Table(CTableABC):
 
     @computing_profile
     def save(self, address, partitions, schema, **kwargs):
-        from fate_arch.common.address import StandaloneAddress
+        from arch.common.address import StandaloneAddress
 
         if isinstance(address, StandaloneAddress):
             self._table.save_as(
@@ -60,10 +60,10 @@ class Table(CTableABC):
             schema.update(self.schema)
             return
 
-        from fate_arch.common.address import PathAddress
+        from arch.common.address import PathAddress
 
         if isinstance(address, PathAddress):
-            from fate_arch.computing.non_distributed import LocalData
+            from arch.computing.non_distributed import LocalData
 
             return LocalData(address.path)
         raise NotImplementedError(

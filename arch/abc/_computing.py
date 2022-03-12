@@ -164,7 +164,7 @@ class CTableABC(metaclass=ABCMeta):
 
         Examples
         --------
-        >>> from fate_arch.session import computing_session
+        >>> from arch.session import computing_session
         >>> a = computing_session.parallelize([('k1', 1), ('k2', 2), ('k3', 3)], include_key=True, partition=2)
         >>> b = a.map(lambda k, v: (k, v**2))
         >>> list(b.collect())
@@ -189,7 +189,7 @@ class CTableABC(metaclass=ABCMeta):
 
         Examples
         --------
-        >>> from fate_arch.session import computing_session
+        >>> from arch.session import computing_session
         >>> a = computing_session.parallelize([('a', ['apple', 'banana', 'lemon']), ('b', ['grapes'])], include_key=True, partition=2)
         >>> b = a.mapValues(lambda x: len(x))
         >>> list(b.collect())
@@ -218,7 +218,7 @@ class CTableABC(metaclass=ABCMeta):
 
         Examples
         --------
-        >>> from fate_arch.session import computing_session
+        >>> from arch.session import computing_session
         >>> a = computing_session.parallelize([1, 2, 3, 4, 5], include_key=False, partition=2)
         >>> def f(iterator):
         ...     s = 0
@@ -251,7 +251,7 @@ class CTableABC(metaclass=ABCMeta):
 
         Examples
         --------
-        >>> from fate_arch.session import computing_session
+        >>> from arch.session import computing_session
         >>> table = computing_session.parallelize([(1, 2), (2, 3), (3, 4), (4, 5)], include_key=False, partition=2)
         >>> def _mapper(it):
         ...     r = []
@@ -286,7 +286,7 @@ class CTableABC(metaclass=ABCMeta):
 
         Examples
         --------
-        >>> from fate_arch.session import computing_session
+        >>> from arch.session import computing_session
         >>> a = computing_session.parallelize([1, 2, 3], partition=3, include_key=False)
         >>> def f(it):
         ...    r = []
@@ -315,7 +315,7 @@ class CTableABC(metaclass=ABCMeta):
 
         Examples
         --------
-        >>> from fate_arch.session import computing_session
+        >>> from arch.session import computing_session
         >>> a = computing_session.parallelize([(1, 1), (2, 2)], include_key=True, partition=2)
         >>> b = a.flatMap(lambda x, y: [(x, y), (x + 10, y ** 2)])
         >>> c = list(b.collect())
@@ -343,7 +343,7 @@ class CTableABC(metaclass=ABCMeta):
 
         Examples
         --------
-        >>> from fate_arch.session import computing_session
+        >>> from arch.session import computing_session
         >>> a = computing_session.parallelize(range(100), include_key=False, partition=4)
         >>> assert a.reduce(lambda x, y: x + y) == sum(range(100))
         
@@ -366,7 +366,7 @@ class CTableABC(metaclass=ABCMeta):
 
         Examples
         --------
-        >>> from fate_arch.session import computing_session
+        >>> from arch.session import computing_session
         >>> a = computing_session.parallelize(range(5), include_key=False, partition=3).glom().collect()
         >>> list(a)
         [(2, [(2, 2)]), (3, [(0, 0), (3, 3)]), (4, [(1, 1), (4, 4)])]
@@ -395,7 +395,7 @@ class CTableABC(metaclass=ABCMeta):
 
         Examples
         --------
-        >>> from fate_arch.session import computing_session
+        >>> from arch.session import computing_session
         >>> x = computing_session.parallelize(range(100), include_key=False, partition=4)
         >>> 6 <= x.sample(fraction=0.1, seed=81).count() <= 14
         True
@@ -424,7 +424,7 @@ class CTableABC(metaclass=ABCMeta):
 
         Examples
         --------
-        >>> from fate_arch.session import computing_session
+        >>> from arch.session import computing_session
         >>> a = computing_session.parallelize([0, 1, 2], include_key=False, partition=2)
         >>> b = a.filter(lambda k, v : k % 2 == 0)
         >>> list(b.collect())
@@ -457,7 +457,7 @@ class CTableABC(metaclass=ABCMeta):
 
         Examples
         --------
-        >>> from fate_arch.session import computing_session
+        >>> from arch.session import computing_session
         >>> a = computing_session.parallelize([1, 2, 3], include_key=False, partition=2)	# [(0, 1), (1, 2), (2, 3)]
         >>> b = computing_session.parallelize([(1, 1), (2, 2), (3, 3)], include_key=True, partition=2)
         >>> c = a.join(b, lambda v1, v2 : v1 + v2)
@@ -488,7 +488,7 @@ class CTableABC(metaclass=ABCMeta):
 
         Examples
         --------
-        >>> from fate_arch.session import computing_session
+        >>> from arch.session import computing_session
         >>> a = computing_session.parallelize([1, 2, 3], include_key=False, partition=2)	# [(0, 1), (1, 2), (2, 3)]
         >>> b = computing_session.parallelize([(1, 1), (2, 2), (3, 3)], include_key=True, partition=2)
         >>> c = a.union(b, lambda v1, v2 : v1 + v2)
@@ -514,7 +514,7 @@ class CTableABC(metaclass=ABCMeta):
 
         Examples
         --------
-        >>> from fate_arch.session import computing_session
+        >>> from arch.session import computing_session
         >>> a = computing_session.parallelize(range(10), include_key=False, partition=2)
         >>> b = computing_session.parallelize(range(5), include_key=False, partition=2)
         >>> c = a.subtractByKey(b)

@@ -32,31 +32,19 @@ class CSession(CSessionABC):
         return self._session
 
     def load(self, address: AddressABC, partitions: int, schema: dict, **kwargs):
-        from fate_arch.common.address import StandaloneAddress
-        from fate_arch.storage import StandaloneStoreType
+        from arch.common.address import StandaloneAddress
 
         if isinstance(address, StandaloneAddress):
             raw_table = self._session.load(address.name, address.namespace)
-            if address.storage_type != StandaloneStoreType.ROLLPAIR_IN_MEMORY:
-                raw_table = raw_table.save_as(
-                    name=f"{address.name}_{fate_uuid()}",
-                    namespace=address.namespace,
-                    partition=partitions,
-                    need_cleanup=True,
-                )
+            raw_table = raw_table.save_as(
+                name=f"{address.name}_{fate_uuid()}",
+                namespace=address.namespace,
+                partition=partitions,
+                need_cleanup=True,
+            )
             table = Table(raw_table)
             table.schema = schema
             return table
-
-        from fate_arch.common.address import PathAddress
-
-        if isinstance(address, PathAddress):
-            from fate_arch.computing.non_distributed import LocalData
-            from fate_arch.computing import ComputingEngine
-            return LocalData(address.path, engine=ComputingEngine.STANDALONE)
-        raise NotImplementedError(
-            f"address type {type(address)} not supported with standalone backend"
-        )
 
     def parallelize(self, data: Iterable, partition: int, include_key: bool, **kwargs):
         table = self._session.parallelize(
@@ -76,10 +64,3 @@ class CSession(CSessionABC):
     @property
     def session_id(self):
         return self._session.session_id
-
-
-if __name__ == '__main__':
-    cs = CSession("1")
-    table = cs.parallelize([1, 2, 3], include_key=False, partition=4)
-    table = table.map(lambda x, y: (x + 2, y * 2))
-    print(list(table.collect()))

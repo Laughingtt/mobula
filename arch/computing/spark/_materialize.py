@@ -1,5 +1,5 @@
 #
-#  Copyright 2019 The Eggroll Authors. All Rights Reserved.
+#  Copyright 2019 The FATE Authors. All Rights Reserved.
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -15,14 +15,20 @@
 #
 
 
-from arch.computing.standalone import Table as StandaloneTable
-from arch.abc import AddressABC, CTableABC
+from pyspark import StorageLevel
 
 
-# noinspection PyAbstractClass
-class Table(CTableABC):
-    def __init__(self, table: StandaloneTable):
-        self._table = table
-        ...
+# noinspection PyUnresolvedReferences
+def materialize(rdd):
+    rdd.persist(get_storage_level())
+    rdd.count()
+    return rdd
 
-    def save(self, address: AddressABC, partitions: int, schema: dict, **kwargs): ...
+
+def unmaterialize(rdd):
+    rdd.unpersist()
+
+
+# noinspection PyUnresolvedReferences
+def get_storage_level():
+    return StorageLevel.MEMORY_AND_DISK

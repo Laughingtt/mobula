@@ -5,9 +5,6 @@
 @company:UDAI
 @author:tianjian
 @file:__init__.py.py
-@time:2022/03/10
+@time:2022/03/12
 
 """
-from arch.computing._type import ComputingEngine
-
-__all__ = ['ComputingEngine']

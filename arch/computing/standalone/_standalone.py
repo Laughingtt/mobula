@@ -852,10 +852,6 @@ deserialize = c_pickle.loads
 
 def _do_map(p: _UnaryProcess):
     rtn = p.output_operand()
-    print(p.info.__dict__)
-    print(p.operand.__dict__)
-    print(rtn.__dict__)
-    print("------")
     with ExitStack() as s:
         #_get_env(self.namespace, self.name, str(self.partition), write=write)
         source_env = s.enter_context(p.operand.as_env())

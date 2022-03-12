@@ -1,5 +1,5 @@
 #
-#  Copyright 2019 The Eggroll Authors. All Rights Reserved.
+#  Copyright 2019 The FATE Authors. All Rights Reserved.
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -13,16 +13,22 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
+from pyspark import RDD
 
-
-from arch.computing.standalone import Table as StandaloneTable
 from arch.abc import AddressABC, CTableABC
 
 
 # noinspection PyAbstractClass
 class Table(CTableABC):
-    def __init__(self, table: StandaloneTable):
-        self._table = table
+
+    def __init__(self, rdd: RDD):
+        self._rdd: RDD = ...
         ...
 
     def save(self, address: AddressABC, partitions: int, schema: dict, **kwargs): ...
+
+
+def from_hdfs(paths: str, partitions, in_serialized, id_delimiter) -> Table: ...
+def from_hive(tb_name: str, db_name: str, partitions: int) -> Table: ...
+def from_rdd(rdd) -> Table: ...
+def from_localfs(paths: str, partitions, in_serialized, id_delimiter) -> Table: ...

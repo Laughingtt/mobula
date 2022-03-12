@@ -11,4 +11,5 @@
 
 from arch.abc._address import AddressABC
 from arch.abc._path import PathABC
-from arch.abc._computing import CSessionABC,CTableABC
+from arch.abc._computing import CSessionABC, CTableABC
+from arch.abc._storage import StorageTableMetaABC, StorageTableABC, StorageSessionABC
